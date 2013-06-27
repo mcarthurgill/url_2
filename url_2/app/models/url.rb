@@ -3,6 +3,8 @@ class Url < ActiveRecord::Base
   validates :original, :format => { :with => /https?:\/\// }
   validate :is_valid_url?
 
+  belongs_to :user
+
   def is_valid_url?
     begin
       open(self.original)
