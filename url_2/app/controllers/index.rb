@@ -1,3 +1,5 @@
+enable :sessions
+
 get '/' do
   erb :index
 end
@@ -7,7 +9,9 @@ post '/urls' do
   @url = Url.new(:original => path)
   if @url.save
     @shortened = SecureRandom.hex(3)
-    @url.update_attributes(:shortened => @shortened)
+
+    current_user ? user_id = current_user.id : user_id = nil
+    @url.update_attributes(:shortened => @shortened, :user_id => user_id)
     erb :_shortened
   else 
     erb :_error
@@ -20,12 +24,22 @@ get '/:short_url' do
 end
 
 get '/users/new' do 
-  @user = User.new
   erb :signup
 end
 
+get '/users/:id' do
+  @user = User.find(params[:id])
+  erb :profile
+end
+
 post '/users' do 
-  @user = User.new(params[:name])
-  p @user
-  erb :_error
+  p params
+  @user = User.new(params)
+  if @user.save
+    session[:user_id] = @user.id
+    redirect "/users/#{@user.id}"
+    # erb :profile
+  else
+    erb :_error
+  end
 end

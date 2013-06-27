@@ -5,4 +5,14 @@
     <input type="submit" value="Create Link">
   </form>
   <div id="links"></div>
+
+  <div class="user-div">
+    <% if current_user %>
+      <p>yes</p>
+    <% else %>
+      <p>no current user</p>
+    <% end %>
+  </div>
+
 </div>
+

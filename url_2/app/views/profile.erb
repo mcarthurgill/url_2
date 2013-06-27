@@ -1,0 +1,17 @@
+<p>name: <%= @user.name %></p>
+
+<p>email: <%= @user.email %></p>
+
+<p>password: <%= @user.password %></p>
+
+<p>id: <%= @user.id %></p>
+
+
+<ul>
+  <h2>your urls... this problem sucks</h2>
+  <% @user.urls.each do |url| %>
+  <li><%= url.original %></li>
+
+  <% end %> 
+
+</ul>
